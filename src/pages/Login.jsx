@@ -1,10 +1,15 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
 
     const {logInUser, setUser} = useContext(AuthContext);
+    const [error, setError] = useState("")
+
+    const location = useLocation()
+    const navigate = useNavigate()
+    
 
     const handleLogin = e => {
         e.preventDefault()
@@ -15,9 +20,10 @@ const Login = () => {
         logInUser(email, password)
         .then((res) => {
             setUser(res.user)
+            navigate(location?.state ? location.state : "/")
         })
-        .catch((error) => {
-            alert(error.message)
+        .catch((err) => {
+            setError(err.code)
         })
     }
 
@@ -52,6 +58,9 @@ const Login = () => {
               required
             />
           </div>
+          {
+            error && <p className="mt-2 text-red-600">{error}</p>
+          }
           <div className="form-control mt-6">
             <button className="btn bg-[#403F3F] text-white text-[20px] font-semibold rounded-none hover:text-black">Login</button>
           </div>
