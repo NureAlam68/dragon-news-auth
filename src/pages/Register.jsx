@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 
 const Register = () => {
 
-  const {createUser, setUser} = useContext(AuthContext)
+  const {createUser, setUser, updateUserProfile} = useContext(AuthContext)
   const [error, setError] = useState("")
+  const navigate = useNavigate()
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -14,6 +15,7 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const name = e.target.name.value;
+    const photo = e.target.photo.value;
 
     if(name.length < 5) {
       setError("Name must be 6 character or long")
@@ -25,6 +27,14 @@ const Register = () => {
     createUser(email, password)
     .then((res) => {
       setUser(res.user)
+
+      updateUserProfile({displayName: name, photoURL: photo})
+      .then(() => {
+        navigate("/")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     })
     .catch((error) => {
       console.log("Error", error.message)
@@ -61,6 +71,7 @@ const Register = () => {
             </label>
             <input
               type="text"
+              name="photo"
               placeholder="Enter your photo url"
               className="input input-bordered bg-[#F3F3F3]"
               required
