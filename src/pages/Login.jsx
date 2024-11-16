@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
   return (
     <div className="min-h-screen flex justify-center items-center w-11/12 mx-auto">
-      <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-none px-[74px] py-[76px]">
+      <div className="card bg-base-100 w-full max-w-[750px] shrink-0 rounded-none px-[74px] py-[76px]">
         <h2 className="text-[35px] font-semibold text-center mb-[50px]">Login your account</h2>
         <hr />
         <form className="card-body p-0 mt-[50px]">
@@ -13,7 +13,7 @@ const Login = () => {
             </label>
             <input
               type="email"
-              placeholder="email"
+              placeholder="Enter your email"
               className="input input-bordered bg-[#F3F3F3]"
               required
             />
@@ -23,7 +23,7 @@ const Login = () => {
               <span className="label-text text-[20px] font-semibold">Password</span>
             </label>
             <input
-              type="password"
+              type="Enter your password"
               placeholder="password"
               className="input input-bordered bg-[#F3F3F3]"
               required
