@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { createContext, useState } from "react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createContext, useEffect, useState } from "react";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import app from "../firebase/firebase.config";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -16,10 +16,26 @@ const AuthProvider = ({children}) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
+    const logOut = () => {
+        return signOut(auth)
+    }
+
+    useEffect(()=> {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+            setUser(currentUser)
+        })
+
+        return () => {
+            unSubscribe();
+        }
+    }, [])
+
 
     const authInfo={
         createUser, 
         setUser,
+        user,
+        logOut
     }
 
     return (
